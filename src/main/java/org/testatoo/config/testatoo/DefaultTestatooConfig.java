@@ -36,12 +36,15 @@ import org.testatoo.container.TestatooContainer;
 import org.testatoo.core.Current;
 import org.testatoo.core.EvaluatorHolder;
 
+import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -157,6 +160,19 @@ final class DefaultTestatooConfig implements TestatooConfig {
     @Override
     public ConcurrentTestingConfig useConcurrentTesting() {
         return concurrentTestingConfig;
+    }
+
+    @Override
+    public int findFreePort() {
+        Random r = new Random();
+        do {
+            int p = 1025 + r.nextInt(64000);
+            try {
+                new ServerSocket(p).close();
+                return p;
+            } catch (IOException ignored) {
+            }
+        } while (true);
     }
 
     void register(EventListener eventListener) {

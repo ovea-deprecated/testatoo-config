@@ -120,5 +120,9 @@ public abstract class AbstractTestatooModule implements TestatooModule {
         return testatooConfig.useAnnotations();
     }
 
+    protected final int findFreePort() {
+        return testatooConfig.findFreePort();
+    }
+
     protected abstract void configure();
 }

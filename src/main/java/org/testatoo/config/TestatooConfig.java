@@ -75,4 +75,6 @@ public interface TestatooConfig {
     SeleniumSessionBuilder createSeleniumSession();
 
     ConcurrentTestingConfig useConcurrentTesting();
+
+    int findFreePort();
 }
