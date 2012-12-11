@@ -16,14 +16,12 @@
 
 package org.testatoo.config;
 
+import com.ovea.tajin.server.Server;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.testatoo.config.cartridge.TestatooCartridge;
 
-import static org.testatoo.container.TestatooContainer.JETTY;
-
 // Package access is just to be sure testatoo can instanciate even
-
 // Protected classes
 final class MyModule extends AbstractTestatooModule {
 
@@ -35,7 +33,7 @@ final class MyModule extends AbstractTestatooModule {
     @Override
     protected void configure() {
         containers().register(createContainer()
-                .implementedBy(JETTY)
+                .implementedBy(Server.JETTY9)
                 .webappRoot("src/test/webapp")
                 .port(7896)
                 .build())
@@ -49,7 +47,7 @@ final class MyModule extends AbstractTestatooModule {
         seleniumSessions()
                 .register(createSeleniumSession()
                         .website("http://127.0.0.1:7896/")
-                        .browser("*mock")
+                        .browser("*googlechrome")
                         .serverHost("127.0.0.1")
                         .serverPort(4444)
                         .build())
@@ -60,7 +58,7 @@ final class MyModule extends AbstractTestatooModule {
         lifecycle().onTest(new MethodInterceptor() {
             @Override
             public Object invoke(MethodInvocation invocation) throws Throwable {
-                if (!invocation.getMethod().getName().equals("test3")) {
+                if (!invocation.getMethod().getName().equals("test_3")) {
                     System.out.println("====> Running: " + invocation.getMethod());
                     return invocation.proceed();
                 } else {

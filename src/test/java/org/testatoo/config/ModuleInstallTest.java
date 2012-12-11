@@ -23,7 +23,7 @@ import java.util.BitSet;
 
 import static org.junit.Assert.assertEquals;
 
-public final class F1ModuleInstallTest {
+public final class ModuleInstallTest {
 
     @Test
     public void test() throws Exception {

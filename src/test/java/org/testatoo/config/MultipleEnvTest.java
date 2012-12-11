@@ -21,31 +21,32 @@ import org.junit.runner.RunWith;
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.env.MainModule;
 import org.testatoo.config.junit.TestatooJunitRunner;
+import org.testatoo.core.component.TextField;
 
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.Language.assertThat;
 
 @RunWith(TestatooJunitRunner.class)
 @TestatooModules(MainModule.class)
-public final class F10MultipleEnvTest {
+public final class MultipleEnvTest {
 
     @Test
-    public void test1() {
-        System.out.println("==========> TEST1");
+    public void test_1() {
         page().open("/index.xhtml");
-        assertThat(textfield("lang").value(), is("x"));
+        assertThat(component(TextField.class, "lang").value(), is("fr"));
     }
 
     @Test
-    public void test2() {
-        System.out.println("==========> TEST2");
+    public void test_2() {
         page().open("/index.xhtml");
-        assertThat(textfield("lang").value(), is("x"));
+        assertThat(component(TextField.class, "lang").value(), is("fr"));
     }
 
     @Test
-    public void test3() {
-        throw new IllegalStateException("This test shoul be skipped by MethodInterceptor in module MyModule");
+    public void test_3() {
+        throw new IllegalStateException("This test should be skipped by MethodInterceptor in module MyModule");
     }
 
 }

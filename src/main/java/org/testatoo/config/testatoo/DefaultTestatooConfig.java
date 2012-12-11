@@ -16,6 +16,8 @@
 
 package org.testatoo.config.testatoo;
 
+import com.ovea.tajin.server.Container;
+import com.ovea.tajin.server.Server;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.testatoo.config.ConcurrentTestingConfig;
@@ -32,7 +34,6 @@ import org.testatoo.config.selenium.SeleniumServerBuilder;
 import org.testatoo.config.selenium.SeleniumServerConfig;
 import org.testatoo.config.selenium.SeleniumSessionBuilder;
 import org.testatoo.config.selenium.SeleniumSessionConfig;
-import org.testatoo.container.TestatooContainer;
 import org.testatoo.core.Current;
 import org.testatoo.core.EvaluatorHolder;
 
@@ -99,7 +100,7 @@ final class DefaultTestatooConfig implements TestatooConfig {
     public ContainerType createContainer() {
         return new ContainerType() {
             @Override
-            public ContainerBuilder implementedBy(TestatooContainer type) {
+            public ContainerBuilder implementedBy(Server type) {
                 notNull(type, "Container type");
                 return implementedBy(type.toString());
             }

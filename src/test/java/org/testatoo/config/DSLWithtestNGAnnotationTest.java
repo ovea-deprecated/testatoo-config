@@ -18,31 +18,32 @@ package org.testatoo.config;
 
 import org.testatoo.config.annotation.TestatooModules;
 import org.testatoo.config.testng.TestatooTestNGTest;
+import org.testatoo.core.component.TextField;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.Language.assertThat;
 
 @TestatooModules(MyModule.class)
 public final class DSLWithtestNGAnnotationTest extends TestatooTestNGTest {
 
     @Test
-    public void test1() {
-        System.out.println("==========> TEST1");
+    public void test_1() {
         page().open("/index.xhtml");
-        assertThat(textfield("lang").value(), is("x"));
+        assertThat(component(TextField.class, "lang").value(), is("fr"));
     }
 
     @Test
-    public void test2() {
-        System.out.println("==========> TEST2");
+    public void test_2() {
         page().open("/index.xhtml");
-        assertThat(textfield("lang").value(), is("x"));
+        assertThat(component(TextField.class, "lang").value(), is("fr"));
     }
 
     @Test
-    public void test3() {
-        throw new IllegalStateException("This test shoul be skipped by MethodInterceptor in module MyModule");
+    public void test_3() {
+        throw new IllegalStateException("This test should be skipped by MethodInterceptor in module MyModule");
     }
 
 }

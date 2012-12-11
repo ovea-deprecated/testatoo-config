@@ -16,10 +16,11 @@
 
 package org.testatoo.config.container;
 
-import org.testatoo.container.TestatooContainer;
+import com.ovea.tajin.server.Server;
 
 public interface ContainerType {
-    ContainerBuilder implementedBy(TestatooContainer type);
+
+    ContainerBuilder implementedBy(Server type);
 
     ContainerBuilder implementedBy(String containerClass);
 }

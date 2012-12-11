@@ -16,12 +16,11 @@
 
 package org.testatoo.config.env;
 
+import com.ovea.tajin.server.Server;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.testatoo.config.AbstractTestatooModule;
 import org.testatoo.config.Scope;
-
-import static org.testatoo.container.TestatooContainer.JETTY;
 
 final class CommonModule extends AbstractTestatooModule {
 
@@ -31,7 +30,7 @@ final class CommonModule extends AbstractTestatooModule {
     @Override
     protected void configure() {
         containers().register(createContainer()
-                .implementedBy(JETTY)
+                .implementedBy(Server.JETTY9)
                 .webappRoot("src/test/webapp")
                 .port(7896)
                 .build())
@@ -41,7 +40,7 @@ final class CommonModule extends AbstractTestatooModule {
                 .onTest(new MethodInterceptor() {
                     @Override
                     public Object invoke(MethodInvocation invocation) throws Throwable {
-                        if (!invocation.getMethod().getName().equals("test3")) {
+                        if (!invocation.getMethod().getName().equals("test_3")) {
                             System.out.println("====> Running: " + invocation.getMethod());
                             return invocation.proceed();
                         } else {

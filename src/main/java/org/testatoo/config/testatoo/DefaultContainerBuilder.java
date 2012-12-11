@@ -16,11 +16,10 @@
 
 package org.testatoo.config.testatoo;
 
+import com.ovea.tajin.server.Container;
+import com.ovea.tajin.server.ContainerConfiguration;
 import org.testatoo.config.Provider;
 import org.testatoo.config.container.ContainerBuilder;
-import org.testatoo.container.Container;
-import org.testatoo.container.ContainerConfiguration;
-import org.testatoo.container.TestatooProperties;
 
 import java.io.File;
 import java.net.URL;
@@ -126,7 +125,7 @@ final class DefaultContainerBuilder implements ContainerBuilder {
     }
 
     @Override
-    public ContainerBuilder set(TestatooProperties property, String value) {
+    public ContainerBuilder set(com.ovea.tajin.server.Properties property, String value) {
         containerConfiguration.set(property, value);
         return this;
     }

@@ -36,7 +36,7 @@ final class LocalModule extends AbstractTestatooModule {
         seleniumSessions()
                 .register(createSeleniumSession()
                         .website("http://127.0.0.1:7896/")
-                        .browser("*mock")
+                        .browser("*googlechrome")
                         .serverHost("127.0.0.1")
                         .serverPort(4444)
                         .build())

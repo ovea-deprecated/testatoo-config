@@ -16,28 +16,31 @@
 
 package org.testatoo.config;
 
+import com.ovea.tajin.server.Server;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testatoo.config.cartridge.TestatooCartridge;
 import org.testatoo.config.testatoo.Testatoo;
+import org.testatoo.core.component.TextField;
 
 import static org.hamcrest.Matchers.is;
-import static org.testatoo.container.TestatooContainer.JETTY;
-import static org.testatoo.core.ComponentFactory.*;
+import static org.testatoo.core.ComponentFactory.component;
+import static org.testatoo.core.ComponentFactory.page;
+import static org.testatoo.core.Language.assertThat;
 
 public final class DSLWithJunitTest {
 
     private static Testatoo testatoo;
 
     @BeforeClass
-    public static void setup() {
+    public static void setup() throws Throwable {
         testatoo = Testatoo.configure(new AbstractTestatooModule() {
             @Override
             protected void configure() {
 
                 containers().register(createContainer()
-                        .implementedBy(JETTY)
+                        .implementedBy(Server.JETTY9)
                         .webappRoot("src/test/webapp")
                         .port(7896)
                         .build())
@@ -51,7 +54,7 @@ public final class DSLWithJunitTest {
                 seleniumSessions()
                         .register(createSeleniumSession()
                                 .website("http://127.0.0.1:7896/")
-                                .browser("*mock")
+                                .browser("*googlechrome")
                                 .serverHost("127.0.0.1")
                                 .serverPort(4444)
                                 .build())
@@ -65,14 +68,14 @@ public final class DSLWithJunitTest {
     }
 
     @AfterClass
-    public static void close() {
+    public static void close() throws Throwable {
         testatoo.stop();
     }
 
     @Test
     public void test() {
         page().open("/index.xhtml");
-        assertThat(textfield("lang").value(), is("x"));
+        assertThat(component(TextField.class, "lang").value(), is("fr"));
     }
 
 }

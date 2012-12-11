@@ -25,10 +25,10 @@ import java.util.BitSet;
 
 import static org.junit.Assert.assertEquals;
 
-public final class F2LifeCycleListenerTest {
+public final class LifeCycleListenerTest {
 
     @Test
-    public void test() throws Exception {
+    public void test() throws Throwable {
         final BitSet checks = new BitSet(4);
 
         Testatoo testatoo = Testatoo.configure(new AbstractTestatooModule() {

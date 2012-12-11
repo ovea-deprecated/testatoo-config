@@ -18,10 +18,11 @@ package org.testatoo.config;
 
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
+import com.ovea.tajin.server.Container;
+import com.ovea.tajin.server.ContainerConfiguration;
+import com.ovea.tajin.server.Server;
 import org.junit.Test;
 import org.testatoo.config.testatoo.Testatoo;
-import org.testatoo.container.Container;
-import org.testatoo.container.ContainerConfiguration;
 
 import javax.net.ServerSocketFactory;
 import java.net.ServerSocket;
@@ -31,23 +32,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.testatoo.container.TestatooContainer.JETTY;
-import static org.testatoo.container.TestatooContainer.TOMCAT;
 
-public final class F3ContainerTest {
+public final class ContainerTest {
 
     @Test
-    public void test() throws Exception {
+    public void test() throws Throwable {
 
         Testatoo testatoo = Testatoo.configure(new AbstractTestatooModule() {
             @Override
             protected void configure() {
                 Provider<Container> provider = createContainer()
-                        .implementedBy(TOMCAT)
+                        .implementedBy(Server.JETTY9)
                         .webappRoot("src/test/webapp")
                         .context("/mycontext")
                         .port(7896)
                         .build();
+
                 containers()
                         .register(provider)
                         .scope(Scope.TEST_CLASS)
@@ -55,7 +55,7 @@ public final class F3ContainerTest {
                                 .webappRoot("src/test/webapp")
                                 .context("/mycontext")
                                 .port(7897)
-                                .buildContainer(JETTY))
+                                .buildContainer(Server.JETTY9))
                         .scope(Scope.TEST_CLASS);
 
             }

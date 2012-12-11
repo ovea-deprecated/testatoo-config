@@ -30,7 +30,7 @@ final class HudsonModule extends AbstractTestatooModule {
         seleniumSessions()
                 .register(createSeleniumSession()
                         .website("http://dev.ovea.com:7896/")
-                        .browser("*mock")
+                        .browser("*googlechrome")
                         .serverHost("192.168.236.51")
                         .serverPort(4444)
                         .build())

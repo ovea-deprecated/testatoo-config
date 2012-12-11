@@ -16,12 +16,12 @@
 
 package org.testatoo.config.testatoo;
 
+import com.ovea.tajin.server.Container;
 import org.testatoo.config.Provider;
 import org.testatoo.config.Scope;
 import org.testatoo.config.ScopedProvider;
 import org.testatoo.config.SingletonProvider;
 import org.testatoo.config.container.ContainerConfig;
-import org.testatoo.container.Container;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -16,10 +16,9 @@
 
 package org.testatoo.config.container;
 
+import com.ovea.tajin.server.Container;
+import com.ovea.tajin.server.ContainerConfiguration;
 import org.testatoo.config.ProviderBuilder;
-import org.testatoo.container.Container;
-import org.testatoo.container.ContainerConfiguration;
-import org.testatoo.container.TestatooProperties;
 
 import java.io.File;
 import java.net.URL;
@@ -53,7 +52,7 @@ public interface ContainerBuilder extends ProviderBuilder<Container> {
 
     ContainerBuilder set(String property, String value);
 
-    ContainerBuilder set(TestatooProperties property, String value);
+    ContainerBuilder set(com.ovea.tajin.server.Properties property, String value);
 
     ContainerBuilder clear(String property);
 }

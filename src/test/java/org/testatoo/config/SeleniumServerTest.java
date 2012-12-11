@@ -27,10 +27,10 @@ import java.net.ServerSocket;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public final class F4SeleniumServerTest {
+public final class SeleniumServerTest {
 
     @Test
-    public void test() throws Exception {
+    public void test() throws Throwable {
 
         Testatoo testatoo = Testatoo.configure(new AbstractTestatooModule() {
             @Override
