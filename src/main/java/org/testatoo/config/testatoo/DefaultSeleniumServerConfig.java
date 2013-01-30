@@ -45,7 +45,7 @@ final class DefaultSeleniumServerConfig implements SeleniumServerConfig {
     @Override
     public ScopedProvider<SeleniumServerConfig> register(final SeleniumServer seleniumServer) {
         notNull(seleniumServer, "Selenium server");
-        return register(new Provider<SeleniumServer>() {
+        return registerProvider(new Provider<SeleniumServer>() {
             @Override
             public SeleniumServer get() {
                 return seleniumServer;
@@ -54,7 +54,7 @@ final class DefaultSeleniumServerConfig implements SeleniumServerConfig {
     }
 
     @Override
-    public ScopedProvider<SeleniumServerConfig> register(final Provider<SeleniumServer> seleniumServer) {
+    public ScopedProvider<SeleniumServerConfig> registerProvider(final Provider<SeleniumServer> seleniumServer) {
         notNull(seleniumServer, "Selenium server provider");
         final Provider<SeleniumServer> singleton = SingletonProvider.from(seleniumServer);
         return new ScopedProvider<SeleniumServerConfig>() {

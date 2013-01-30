@@ -28,12 +28,12 @@ final class HudsonModule extends AbstractTestatooModule {
     @Override
     protected void configure() {
         seleniumSessions()
-                .register(createSeleniumSession()
-                        .website("http://dev.ovea.com:7896/")
-                        .browser("*googlechrome")
-                        .serverHost("192.168.236.51")
-                        .serverPort(4444)
-                        .build())
+                .registerProvider(createSeleniumSession()
+                    .website("http://dev.ovea.com:7896/")
+                    .browser("*googlechrome")
+                    .serverHost("192.168.236.51")
+                    .serverPort(4444)
+                    .build())
                 .scope(Scope.TEST_CLASS)
                 .withTimeout(20000)
                 .inCartridge(TestatooCartridge.HTML4);

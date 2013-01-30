@@ -46,7 +46,7 @@ public final class SeleniumWithSupportedCartridgeTest {
                         .build();
 
                 seleniumSessions()
-                        .register(provider)
+                        .registerProvider(provider)
                         .scope(Scope.TEST_CLASS)
                         .withTimeout(20000)
                         .inCartridge(TestatooCartridge.HTML4);
@@ -64,15 +64,15 @@ public final class SeleniumWithSupportedCartridgeTest {
         return new AbstractTestatooModule() {
             @Override
             protected void configure() {
-                containers().register(createContainer()
-                        .implementedBy(Server.JETTY9)
-                        .webappRoot("src/test/webapp")
-                        .port(7896)
-                        .build())
+                containers().registerProvider(createContainer()
+                    .implementedBy(Server.JETTY9)
+                    .webappRoot("src/test/webapp")
+                    .port(7896)
+                    .build())
                         .scope(Scope.TEST_CLASS);
-                seleniumServers().register(createSeleniumServer()
-                        .port(4444)
-                        .build())
+                seleniumServers().registerProvider(createSeleniumServer()
+                    .port(4444)
+                    .build())
                         .scope(Scope.TEST_CLASS);
             }
         };

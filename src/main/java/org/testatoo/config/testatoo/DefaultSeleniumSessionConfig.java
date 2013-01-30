@@ -49,7 +49,7 @@ final class DefaultSeleniumSessionConfig implements SeleniumSessionConfig {
     @Override
     public ScopedProvider<SeleniumSessionConfigBuilder> register(final Selenium session) {
         notNull(session, "Selenium session");
-        return register(new Provider<Selenium>() {
+        return registerProvider(new Provider<Selenium>() {
             @Override
             public Selenium get() {
                 return session;
@@ -58,7 +58,7 @@ final class DefaultSeleniumSessionConfig implements SeleniumSessionConfig {
     }
 
     @Override
-    public ScopedProvider<SeleniumSessionConfigBuilder> register(Provider<Selenium> session) {
+    public ScopedProvider<SeleniumSessionConfigBuilder> registerProvider(Provider<Selenium> session) {
         notNull(session, "Selenium session provider");
         final Provider<Selenium> singleton = SingletonProvider.from(session);
         final DefaultSeleniumSessionConfigBuilder seleniumSessionConfigBuilder = new DefaultSeleniumSessionConfigBuilder(this);

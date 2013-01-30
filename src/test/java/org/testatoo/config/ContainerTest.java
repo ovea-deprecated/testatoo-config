@@ -18,20 +18,17 @@ package org.testatoo.config;
 
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
-import com.ovea.tajin.server.Container;
 import com.ovea.tajin.server.ContainerConfiguration;
 import com.ovea.tajin.server.Server;
 import org.junit.Test;
+import org.testatoo.config.container.ContainerInfo;
 import org.testatoo.config.testatoo.Testatoo;
 
 import javax.net.ServerSocketFactory;
 import java.net.ServerSocket;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public final class ContainerTest {
 
@@ -41,22 +38,21 @@ public final class ContainerTest {
         Testatoo testatoo = Testatoo.configure(new AbstractTestatooModule() {
             @Override
             protected void configure() {
-                Provider<Container> provider = createContainer()
-                        .implementedBy(Server.JETTY9)
-                        .webappRoot("src/test/webapp")
-                        .context("/mycontext")
-                        .port(7896)
-                        .build();
+                Provider<ContainerInfo> provider = createContainer()
+                    .implementedBy(Server.JETTY9)
+                    .webappRoot("src/test/webapp")
+                    .context("/mycontext")
+                    .port(7896)
+                    .build();
 
                 containers()
-                        .register(provider)
-                        .scope(Scope.TEST_CLASS)
-                        .register(ContainerConfiguration.create()
-                                .webappRoot("src/test/webapp")
-                                .context("/mycontext")
-                                .port(7897)
-                                .buildContainer(Server.JETTY9))
-                        .scope(Scope.TEST_CLASS);
+                    .register(provider.get())
+                    .scope(Scope.TEST_CLASS)
+                    .register(new ContainerInfo(ContainerConfiguration.create()
+                        .webappRoot("src/test/webapp")
+                        .context("/mycontext")
+                        .port(7897), "com.ovea.tajin.server.Jetty9Container"))
+                    .scope(Scope.TEST_CLASS);
 
             }
         });

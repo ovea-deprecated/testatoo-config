@@ -37,6 +37,6 @@ public interface ScopedProviderRegistry<T, E> {
      * @param provider A {@link Provider} which will return the implementation when called
      * @return this
      */
-    ScopedProvider<E> register(Provider<T> provider);
+    ScopedProvider<E> registerProvider(Provider<T> provider);
 
 }

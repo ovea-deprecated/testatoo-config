@@ -39,7 +39,7 @@ public final class SeleniumServerTest {
                         .port(4444)
                         .build();
                 seleniumServers()
-                        .register(provider)
+                        .registerProvider(provider)
                         .scope(Scope.TEST_CLASS)
                         .register(SeleniumServerFactory
                                 .commandeLine("-port", "5555")

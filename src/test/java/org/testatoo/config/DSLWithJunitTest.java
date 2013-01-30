@@ -39,25 +39,25 @@ public final class DSLWithJunitTest {
             @Override
             protected void configure() {
 
-                containers().register(createContainer()
-                        .implementedBy(Server.JETTY9)
-                        .webappRoot("src/test/webapp")
-                        .port(7896)
-                        .build())
+                containers().registerProvider(createContainer()
+                    .implementedBy(Server.JETTY9)
+                    .webappRoot("src/test/webapp")
+                    .port(7896)
+                    .build())
                         .scope(Scope.TEST_CLASS);
 
-                seleniumServers().register(createSeleniumServer()
-                        .port(4444)
-                        .build())
+                seleniumServers().registerProvider(createSeleniumServer()
+                    .port(4444)
+                    .build())
                         .scope(Scope.TEST_CLASS);
 
                 seleniumSessions()
-                        .register(createSeleniumSession()
-                                .website("http://127.0.0.1:7896/")
-                                .browser("*googlechrome")
-                                .serverHost("127.0.0.1")
-                                .serverPort(4444)
-                                .build())
+                        .registerProvider(createSeleniumSession()
+                            .website("http://127.0.0.1:7896/")
+                            .browser("*googlechrome")
+                            .serverHost("127.0.0.1")
+                            .serverPort(4444)
+                            .build())
                         .scope(Scope.TEST_CLASS)
                         .withTimeout(20000)
                         .inCartridge(TestatooCartridge.HTML4);

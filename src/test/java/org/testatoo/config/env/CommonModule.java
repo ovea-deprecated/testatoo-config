@@ -29,11 +29,11 @@ final class CommonModule extends AbstractTestatooModule {
 
     @Override
     protected void configure() {
-        containers().register(createContainer()
-                .implementedBy(Server.JETTY9)
-                .webappRoot("src/test/webapp")
-                .port(7896)
-                .build())
+        containers().registerProvider(createContainer()
+            .implementedBy(Server.JETTY9)
+            .webappRoot("src/test/webapp")
+            .port(7896)
+            .build())
                 .scope(Scope.TEST_CLASS);
 
         lifecycle()

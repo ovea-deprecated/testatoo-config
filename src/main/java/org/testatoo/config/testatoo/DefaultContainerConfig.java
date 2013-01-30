@@ -22,15 +22,16 @@ import org.testatoo.config.Scope;
 import org.testatoo.config.ScopedProvider;
 import org.testatoo.config.SingletonProvider;
 import org.testatoo.config.container.ContainerConfig;
+import org.testatoo.config.container.ContainerInfo;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.testatoo.config.testatoo.Ensure.notNull;
 
 final class DefaultContainerConfig implements ContainerConfig {
 
-    private static final Set<Integer> SCOPE_TEST_SUITE = new HashSet<Integer>();
+    private static final Map<Integer, Container> CONTAINERS = new ConcurrentHashMap<Integer, Container>();
 
     private final DefaultTestatooConfig config;
 
@@ -39,20 +40,20 @@ final class DefaultContainerConfig implements ContainerConfig {
     }
 
     @Override
-    public ScopedProvider<ContainerConfig> register(final Container container) {
+    public ScopedProvider<ContainerConfig> register(final ContainerInfo container) {
         notNull(container, "Container");
-        return register(new Provider<Container>() {
+        return registerProvider(new Provider<ContainerInfo>() {
             @Override
-            public Container get() {
+            public ContainerInfo get() {
                 return container;
             }
         });
     }
 
     @Override
-    public ScopedProvider<ContainerConfig> register(Provider<Container> container) {
+    public ScopedProvider<ContainerConfig> registerProvider(Provider<ContainerInfo> container) {
         notNull(container, "Container provider");
-        final Provider<Container> singleton = SingletonProvider.from(container);
+        final Provider<ContainerInfo> singleton = SingletonProvider.from(container);
         return new ScopedProvider<ContainerConfig>() {
             @Override
             public ContainerConfig scope(Scope scope) {
@@ -61,10 +62,11 @@ final class DefaultContainerConfig implements ContainerConfig {
                         config.register(new EventListener(Priority.CONTAINER) {
                             @Override
                             void onStart() {
-                                Container container = singleton.get();
-                                if (!SCOPE_TEST_SUITE.contains(container.port())) {
-                                    container.start();
-                                    SCOPE_TEST_SUITE.add(container.port());
+                                ContainerInfo container = singleton.get();
+                                if (!CONTAINERS.containsKey(container.configuration.port())) {
+                                    Container c = container.get();
+                                    CONTAINERS.put(container.configuration.port(), c);
+                                    c.start();
                                 }
                             }
 
@@ -77,12 +79,19 @@ final class DefaultContainerConfig implements ContainerConfig {
                         config.register(new EventListener(Priority.CONTAINER) {
                             @Override
                             void onStart() {
-                                singleton.get().start();
+                                ContainerInfo container = singleton.get();
+                                Container c = CONTAINERS.get(container.configuration.port());
+                                if (c == null) {
+                                    c = container.get();
+                                    CONTAINERS.put(container.configuration.port(), c);
+                                }
+                                c.start();
                             }
 
                             @Override
                             void onStop() {
-                                singleton.get().stop();
+                                ContainerInfo container = singleton.get();
+                                CONTAINERS.get(container.configuration.port()).stop();
                             }
                         });
                         break;

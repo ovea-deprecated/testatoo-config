@@ -18,13 +18,14 @@ package org.testatoo.config.container;
 
 import com.ovea.tajin.server.Container;
 import com.ovea.tajin.server.ContainerConfiguration;
+import org.testatoo.config.Provider;
 import org.testatoo.config.ProviderBuilder;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Properties;
 
-public interface ContainerBuilder extends ProviderBuilder<Container> {
+public interface ContainerBuilder extends ProviderBuilder<ContainerInfo> {
 
     ContainerBuilder serverClassPath(String serverClassPath);
 

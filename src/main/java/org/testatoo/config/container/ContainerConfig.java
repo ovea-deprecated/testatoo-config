@@ -16,9 +16,8 @@
 
 package org.testatoo.config.container;
 
-import com.ovea.tajin.server.Container;
 import org.testatoo.config.ScopedProviderRegistry;
 
-public interface ContainerConfig extends ScopedProviderRegistry<Container, ContainerConfig> {
+public interface ContainerConfig extends ScopedProviderRegistry<ContainerInfo, ContainerConfig> {
 
 }

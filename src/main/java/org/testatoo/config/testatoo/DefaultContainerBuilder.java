@@ -20,6 +20,7 @@ import com.ovea.tajin.server.Container;
 import com.ovea.tajin.server.ContainerConfiguration;
 import org.testatoo.config.Provider;
 import org.testatoo.config.container.ContainerBuilder;
+import org.testatoo.config.container.ContainerInfo;
 
 import java.io.File;
 import java.net.URL;
@@ -35,11 +36,11 @@ final class DefaultContainerBuilder implements ContainerBuilder {
     }
 
     @Override
-    public Provider<Container> build() {
-        return new Provider<Container>() {
+    public Provider<ContainerInfo> build() {
+        return new Provider<ContainerInfo>() {
             @Override
-            public Container get() {
-                return containerConfiguration.buildContainer(containerClass);
+            public ContainerInfo get() {
+                return new ContainerInfo( containerConfiguration, containerClass);
             }
         };
     }
